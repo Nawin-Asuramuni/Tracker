@@ -1375,8 +1375,8 @@ window.generateBookingLink = async function(contactId) {
     const ref = await addDoc(collection(db, 'bookingLinks'), linkData);
     const linkId = ref.id;
 
-    // GitHub Pages URL – passe DEIN_GITHUB_USERNAME und DEIN_REPO_NAME an!
-    const baseUrl = `https://DEIN_GITHUB_USERNAME.github.io/DEIN_REPO_NAME/booking.html`;
+    // GitHub Pages URL – passe  und DEIN_REPO_NAME an!
+const baseUrl = `https://nawin-asuramuni.github.io/Tracker/booking.html`;
     const fullUrl = `${baseUrl}?lid=${linkId}`;
 
     await navigator.clipboard.writeText(fullUrl);
