@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧪 Travel Validation – Testumgebung</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #0a0e1a;
+      --bg2:     #111827;
+      --bg3:     #1a2235;
+      --border:  rgba(99,102,241,0.2);
+      --border2: rgba(99,102,241,0.35);
+      --indigo:  #6366f1;
+      --indigo2: #818cf8;
+      --green:   #10b981;
+      --red:     #ef4444;
+      --amber:   #f59e0b;
+      --text:    #f1f5f9;
+      --text2:   rgba(241,245,249,0.6);
+      --text3:   rgba(241,245,249,0.35);
+      --mono:    'JetBrains Mono', monospace;
+      --sans:    'Syne', sans-serif;
+    }
+    html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; }
+
+    /* grid noise */
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; position: relative; z-index: 1; }
+
+    /* Header */
+    .header { margin-bottom: 32px; }
+    .badge-test {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(99,102,241,0.12); border: 1px solid var(--border2);
+      color: var(--indigo2); border-radius: 20px; padding: 4px 12px;
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .badge-test::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--indigo2); animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .subtitle { color: var(--text2); font-size: 13px; line-height: 1.6; }
+    .readonly-badge {
+      display: inline-flex; align-items: center; gap: 5px; margin-top: 10px;
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
+      color: var(--green); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 22px 24px; margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 13px; font-weight: 700; color: var(--indigo2);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title i { font-size: 16px; }
+
+    /* Form grid */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media(max-width:600px){ .form-grid { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 11px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+    .field input, .field select, .field textarea {
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--text); border-radius: 8px; padding: 9px 12px;
+      font-size: 13px; font-family: var(--mono); outline: none; transition: border-color .15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--indigo); }
+    .field input::placeholder { color: var(--text3); }
+    .field select option { background: var(--bg2); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px; justify-content: center;
+      border: none; border-radius: 9px; padding: 10px 20px;
+      font-size: 13px; font-weight: 700; cursor: pointer; transition: all .15s;
+      font-family: var(--sans);
+    }
+    .btn-primary { background: var(--indigo); color: #fff; }
+    .btn-primary:hover { background: var(--indigo2); }
+    .btn-primary:disabled { opacity: .5; cursor: default; }
+    .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: var(--bg3); color: var(--text); }
+    .btn-green { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+    .btn-green:hover { background: rgba(16,185,129,0.25); }
+
+    /* Status */
+    .status-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 8px; font-size: 12px; font-family: var(--mono);
+      margin-bottom: 8px;
+    }
+    .status-ok    { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); color: var(--green); }
+    .status-warn  { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); color: var(--amber); }
+    .status-error { background: rgba(239,68,68,0.08);  border: 1px solid rgba(239,68,68,0.25);  color: var(--red); }
+    .status-info  { background: rgba(99,102,241,0.08); border: 1px solid var(--border);         color: var(--indigo2); }
+
+    /* Result panel */
+    #resultPanel { display: none; }
+    .result-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px; border-radius: 10px; margin-bottom: 16px;
+      font-size: 15px; font-weight: 700;
+    }
+    .result-ok    { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.35); color: var(--green); }
+    .result-error { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.35);  color: var(--red); }
+    .result-warn  { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.35); color: var(--amber); }
+
+    .detail-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+    @media(max-width:600px){ .detail-grid { grid-template-columns: 1fr 1fr; } }
+    .detail-box {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px;
+    }
+    .detail-label { font-size: 10px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
+    .detail-value { font-size: 20px; font-weight: 700; font-family: var(--mono); color: var(--text); }
+    .detail-unit { font-size: 11px; color: var(--text3); margin-left: 2px; }
+
+    /* Termin-Timeline */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: flex; gap: 14px; padding: 12px 0;
+      border-bottom: 1px solid rgba(99,102,241,0.08);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .tl-time { font-family: var(--mono); font-size: 12px; color: var(--indigo2); min-width: 80px; padding-top: 2px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .tl-content { flex: 1; }
+    .tl-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .tl-addr { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+    .tl-gap {
+      margin: 0 0 0 94px; padding: 6px 10px;
+      background: var(--bg3); border-left: 2px solid var(--border2);
+      font-size: 11px; color: var(--text3); font-family: var(--mono);
+    }
+    .tl-gap.danger { border-color: var(--red); color: var(--red); background: rgba(239,68,68,0.05); }
+    .tl-gap.ok     { border-color: var(--green); color: var(--green); background: rgba(16,185,129,0.05); }
+
+    /* Termin-Liste */
+    .termin-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .termin-item {
+      display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+      cursor: pointer; transition: border-color .15s;
+    }
+    .termin-item:hover { border-color: var(--indigo); }
+    .termin-item.selected { border-color: var(--indigo); background: rgba(99,102,241,0.08); }
+    .termin-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .termin-time { font-family: var(--mono); font-size: 12px; color: var(--indigo2); min-width: 100px; }
+    .termin-info { flex: 1; }
+    .termin-name { font-size: 13px; font-weight: 600; }
+    .termin-addr { font-size: 11px; color: var(--text3); }
+
+    /* Log */
+    .log-area {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px; font-family: var(--mono); font-size: 11px; color: var(--text3);
+      height: 160px; overflow-y: auto; line-height: 1.7;
+    }
+    .log-ok   { color: var(--green); }
+    .log-warn { color: var(--amber); }
+    .log-err  { color: var(--red); }
+    .log-info { color: var(--indigo2); }
+
+    /* Spinner */
+    .spinner { width: 18px; height: 18px; border: 2px solid rgba(99,102,241,0.2); border-top-color: var(--indigo); border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+    .hidden { display: none !important; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+      padding: 2px 8px; font-size: 11px; color: var(--text2); font-family: var(--mono);
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge-test">Testumgebung · Kein Einfluss auf Live-System</div>
+    <h1>🧪 Travel Validation Test</h1>
+    <p class="subtitle">
+      Prüft ob Termine zeitlich erreichbar sind – unter Berücksichtigung von Fahrzeit + Puffer.<br/>
+      Liest deine echten Firebase-Termine, schreibt aber <strong>nichts</strong> zurück.
+    </p>
+    <div class="readonly-badge"><i class="ti ti-eye"></i> READ-ONLY – Firebase wird nicht verändert</div>
+  </div>
+
+  <!-- 1. Einstellungen -->
+  <div class="card">
+    <div class="card-title"><i class="ti ti-settings"></i> Einstellungen für diesen Test</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Verkehrsmittel</label>
+        <select id="t_verkehrsmittel">
+          <option value="auto">🚗 Auto</option>
+          <option value="oepnv">🚆 ÖPNV / Zug (Hafas)</option>
+          <option value="fahrrad">🚲 Fahrrad</option>
+          <option value="fuss">🚶 Zu Fuß</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Pufferzeit (Minuten)</label>
+        <input type="number" id="t_puffer" value="15" min="0" max="120" />
+      </div>
+      <div class="field full">
+        <label>Google Maps API-Key <span style="font-weight:400;opacity:.6;">(optional – ohne Key: Nominatim-Schätzung)</span></label>
+        <input type="password" id="t_gmapsKey" placeholder="AIza... (leer lassen = kostenlose Schätzung)" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Firebase Termine laden -->
+  <div class="card">
+    <div class="card-title"><i class="ti ti-database"></i> Termine aus Firebase laden</div>
+    <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+      <button class="btn btn-primary" id="loadBtn" onclick="ladeTermine()">
+        <i class="ti ti-refresh"></i> Termine laden
+      </button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <input type="date" id="t_datum" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 12px;font-family:var(--mono);font-size:13px;outline:none;" />
+        <span style="font-size:12px;color:var(--text3);">Nur diesen Tag anzeigen</span>
+      </div>
+    </div>
+    <div id="termineContainer">
+      <div class="status-row status-info"><i class="ti ti-info-circle"></i> Noch keine Termine geladen – Button oben klicken.</div>
+    </div>
+  </div>
+
+  <!-- 3. Neuen Termin simulieren -->
+  <div class="card">
+    <div class="card-title"><i class="ti ti-test-pipe"></i> Neuen Termin simulieren</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.6;">
+      Gib einen hypothetischen neuen Termin ein. Das System prüft automatisch ob er nach dem vorherigen Termin des gleichen Tages noch erreichbar ist.
+    </p>
+    <div class="form-grid">
+      <div class="field">
+        <label>Datum & Uhrzeit</label>
+        <input type="datetime-local" id="t_neuerDatetime" />
+      </div>
+      <div class="field">
+        <label>Termindauer (Minuten)</label>
+        <input type="number" id="t_neuerDauer" value="60" min="15" max="480" />
+      </div>
+      <div class="field full">
+        <label>Termin-Adresse *</label>
+        <input type="text" id="t_neuerAdresse" placeholder="Bahnhofstraße 5, 89073 Ulm" />
+      </div>
+      <div class="field full">
+        <label>Vorheriger Termin – Adresse <span style="font-weight:400;opacity:.6;">(oder aus Liste oben wählen)</span></label>
+        <input type="text" id="t_vonAdresse" placeholder="Hauptstraße 1, 89073 Ulm (wird automatisch gefüllt)" />
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+      <button class="btn btn-primary" id="pruefeBtn" onclick="pruefeTermin()">
+        <i class="ti ti-route"></i> Fahrzeit prüfen
+      </button>
+      <button class="btn btn-ghost" onclick="alleTerminePruefen()">
+        <i class="ti ti-list-check"></i> Alle Termine des Tages prüfen
+      </button>
+    </div>
+  </div>
+
+  <!-- 4. Ergebnis -->
+  <div class="card" id="resultPanel">
+    <div class="card-title"><i class="ti ti-chart-bar"></i> Prüfergebnis</div>
+    <div id="resultContent"></div>
+  </div>
+
+  <!-- 5. Tages-Übersicht -->
+  <div class="card" id="timelinePanel" style="display:none;">
+    <div class="card-title"><i class="ti ti-timeline"></i> Tages-Timeline</div>
+    <div id="timelineContent"></div>
+  </div>
+
+  <!-- 6. Log -->
+  <div class="card">
+    <div class="card-title"><i class="ti ti-terminal"></i> Konsolen-Log</div>
+    <div class="log-area" id="logArea">Bereit. Warte auf Aktion...<br/></div>
+    <div style="margin-top:8px;">
+      <button class="btn btn-ghost" style="font-size:11px;padding:6px 12px;" onclick="document.getElementById('logArea').innerHTML='Log geleert.<br/>'">
+        <i class="ti ti-trash"></i> Log leeren
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Firebase Compat SDK (kein Modul-System nötig) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+// ── Firebase Setup ──────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyBxiDftvsNOfElvrt8hhLaUA0HDoSyuK-g",
+  authDomain: "tracking-74513.firebaseapp.com",
+  projectId: "tracking-74513",
+  storageBucket: "tracking-74513.firebasestorage.app",
+  messagingSenderId: "621239887005",
+  appId: "1:621239887005:web:5b962abff5c9109a546074"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ── Firebase Setup ─────────────────────────────────────────────
+
+
+
+// ── State ──────────────────────────────────────────────────────
+let allTermine = [];
+let selectedVorTermin = null;
+
+// ── Hilfsfunktionen ────────────────────────────────────────────
+const pad = n => String(n).padStart(2,'0');
+const $ = id => document.getElementById(id);
+
+function log(msg, type = 'info') {
+  const area = $('logArea');
+  const cls = { ok:'log-ok', warn:'log-warn', err:'log-err', info:'log-info' }[type] || '';
+  const time = new Date().toLocaleTimeString('de-DE');
+  area.innerHTML += `<span class="${cls}">[${time}] ${msg}</span><br/>`;
+  area.scrollTop = area.scrollHeight;
+}
+
+function parseLocalISO(isoStr) {
+  const s = isoStr.slice(0,16);
+  const [d, t] = s.split('T');
+  const [yr, mo, dy] = d.split('-').map(Number);
+  const [hr, mi] = t.split(':').map(Number);
+  return new Date(yr, mo-1, dy, hr, mi).getTime();
+}
+
+function fmtTime(ms) {
+  return new Date(ms).toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit' });
+}
+
+function fmtDate(ms) {
+  return new Date(ms).toLocaleDateString('de-DE', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+// ── Einstellungen lesen ────────────────────────────────────────
+function getSettings() {
+  return {
+    verkehrsmittel: $('t_verkehrsmittel').value,
+    pufferMinuten:  parseInt($('t_puffer').value) || 15,
+    gmapsKey:       $('t_gmapsKey').value.trim(),
+  };
+}
+
+// ── Nominatim Geocoding (kostenlos) ───────────────────────────
+async function geocode(adresse) {
+  log(`Geocoding: ${adresse}`, 'info');
+  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`;
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'TravelTest/1.0' } });
+    const data = await res.json();
+    if (!data?.[0]) { log(`Geocoding fehlgeschlagen: ${adresse}`, 'warn'); return null; }
+    log(`→ ${data[0].display_name.slice(0,60)}... (${parseFloat(data[0].lat).toFixed(4)}, ${parseFloat(data[0].lon).toFixed(4)})`, 'ok');
+    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon), name: data[0].display_name };
+  } catch(e) { log(`Geocoding Fehler: ${e.message}`, 'err'); return null; }
+}
+
+function haversineKm({ lat: lat1, lon: lon1 }, { lat: lat2, lon: lon2 }) {
+  const R = 6371;
+  const dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+const FALLBACK_SPEED = { auto:60, fahrrad:15, fuss:5, oepnv:40 };
+
+// ── Google Maps Distance Matrix ────────────────────────────────
+async function fahrzeitGoogleMaps(von, nach, modus, apiKey) {
+  const modeMap = { auto:'driving', fahrrad:'bicycling', fuss:'walking', oepnv:'transit' };
+  const mode = modeMap[modus] || 'driving';
+  // Proxy nötig für CORS – direkter Aufruf funktioniert von localhost
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json`
+    + `?origins=${encodeURIComponent(von)}&destinations=${encodeURIComponent(nach)}`
+    + `&mode=${mode}&language=de&key=${apiKey}`;
+  log(`Google Maps API: ${mode} von "${von}" nach "${nach}"`, 'info');
+  const res = await fetch(url);
+  const data = await res.json();
+  if (data.status !== 'OK') throw new Error(`Status: ${data.status}`);
+  const el = data.rows?.[0]?.elements?.[0];
+  if (el?.status !== 'OK') throw new Error(`Element: ${el?.status}`);
+  const min = Math.ceil(el.duration.value / 60);
+  log(`Google Maps: ${min} Min. (${el.distance.text})`, 'ok');
+  return { minuten: min, quelle: `Google Maps (${mode})`, distanz: el.distance.text };
+}
+
+// ── Deutsche Bahn Hafas ────────────────────────────────────────
+async function fahrzeitHafas(von, nach) {
+  const BASE = 'https://v6.db.transport.rest';
+  log(`Hafas: Suche Haltestellen für "${von}" und "${nach}"`, 'info');
+
+  const [vonStop, nachStop] = await Promise.all([
+    fetch(`${BASE}/locations?query=${encodeURIComponent(von)}&results=1`, { headers:{'Accept':'application/json'} })
+      .then(r=>r.json()).then(d=>d?.[0]).catch(()=>null),
+    fetch(`${BASE}/locations?query=${encodeURIComponent(nach)}&results=1`, { headers:{'Accept':'application/json'} })
+      .then(r=>r.json()).then(d=>d?.[0]).catch(()=>null),
+  ]);
+
+  if (!vonStop || !nachStop) throw new Error('Haltestelle nicht gefunden');
+  log(`Von-Stop: ${vonStop.name} | Nach-Stop: ${nachStop.name}`, 'info');
+
+  const jetzt = new Date().toISOString();
+  const url = `${BASE}/journeys?from=${vonStop.id}&to=${nachStop.id}&departure=${encodeURIComponent(jetzt)}&results=1&stopovers=false`;
+  const data = await fetch(url, { headers:{'Accept':'application/json'} }).then(r=>r.json());
+  const journey = data.journeys?.[0];
+  if (!journey) throw new Error('Keine Verbindung gefunden');
+
+  const legs = journey.legs;
+  const abfahrt = new Date(legs[0].departure || legs[0].plannedDeparture);
+  const ankunft = new Date(legs[legs.length-1].arrival || legs[legs.length-1].plannedArrival);
+  const minuten = Math.ceil((ankunft - abfahrt) / 60000);
+  const linie = legs.map(l => l.line?.name || (l.walking ? '🚶' : '?')).join(' → ');
+  log(`Hafas: ${minuten} Min. (${linie})`, 'ok');
+  return { minuten, quelle: 'Deutsche Bahn (Hafas)', verbindung: linie };
+}
+
+// ── Haupt-Fahrzeitberechnung ───────────────────────────────────
+async function berechnefahrzeit(von, nach) {
+  const { verkehrsmittel, gmapsKey } = getSettings();
+  if (!von || !nach) return { minuten: 0, quelle: 'keine Adresse' };
+  if (von.trim().toLowerCase() === nach.trim().toLowerCase()) return { minuten: 0, quelle: 'gleicher Ort' };
+
+  // ÖPNV → Hafas
+  if (verkehrsmittel === 'oepnv') {
+    try { return await fahrzeitHafas(von, nach); }
+    catch(e) { log(`Hafas fehlgeschlagen (${e.message}), Fallback auf Schätzung`, 'warn'); }
+  }
+
+  // Google Maps
+  if (gmapsKey) {
+    try { return await fahrzeitGoogleMaps(von, nach, verkehrsmittel, gmapsKey); }
+    catch(e) { log(`Google Maps fehlgeschlagen (${e.message}), Fallback auf Nominatim`, 'warn'); }
+  }
+
+  // Nominatim + Haversine-Schätzung
+  log('Verwende Nominatim + Luftlinien-Schätzung (kein API-Key)', 'warn');
+  const [c1, c2] = await Promise.all([geocode(von), geocode(nach)]);
+  if (!c1 || !c2) return { minuten: 30, quelle: 'Schätzung (Geocoding fehlgeschlagen)' };
+  const km = haversineKm(c1, c2);
+  const speed = FALLBACK_SPEED[verkehrsmittel] || 40;
+  const minuten = Math.ceil((km / speed) * 60 * 1.3);
+  log(`Schätzung: ${km.toFixed(1)} km × Faktor 1.3 bei ${speed} km/h = ${minuten} Min.`, 'ok');
+  return { minuten, quelle: `Schätzung (${km.toFixed(1)} km Luftlinie)`, distanz: `~${km.toFixed(1)} km` };
+}
+
+// ── Firebase Termine laden ─────────────────────────────────────
+window.ladeTermine = async function() {
+  const btn = $('loadBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Lade...';
+  log('Lade Termine aus Firebase (read-only)...', 'info');
+
+  const datumFilter = $('t_datum').value; // 'YYYY-MM-DD' oder leer
+
+  try {
+    const now = new Date();
+    const from = datumFilter ? `${datumFilter}T00:00` : `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T00:00`;
+    const to   = datumFilter ? `${datumFilter}T23:59` : `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate()+30)}T23:59`;
+
+    const snap = await db.collection('callSlots')
+      .where('datetime', '>=', from)
+      .where('datetime', '<=', to)
+      .orderBy('datetime', 'asc')
+      .get();
+    allTermine = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    log(`${allTermine.length} Termine geladen (${datumFilter || 'nächste 30 Tage'})`, 'ok');
+    renderTerminListe();
+  } catch(e) {
+    log(`Firebase Fehler: ${e.message}`, 'err');
+    $('termineContainer').innerHTML = `<div class="status-row status-error"><i class="ti ti-alert-circle"></i> ${e.message}</div>`;
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-refresh"></i> Termine laden';
+};
+
+function renderTerminListe() {
+  const container = $('termineContainer');
+  if (allTermine.length === 0) {
+    container.innerHTML = '<div class="status-row status-warn"><i class="ti ti-calendar-off"></i> Keine Termine in diesem Zeitraum gefunden.</div>';
+    return;
+  }
+
+  // Gruppiert nach Tag
+  const byDay = {};
+  allTermine.forEach(t => {
+    const tag = t.datetime?.slice(0,10) || '?';
+    if (!byDay[tag]) byDay[tag] = [];
+    byDay[tag].push(t);
+  });
+
+  let html = `<div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-family:var(--mono);">
+    ${allTermine.length} Termine geladen · Klicke einen an, um ihn als Vorgänger zu wählen
+  </div><div class="termin-list">`;
+
+  Object.entries(byDay).forEach(([tag, termine]) => {
+    html += `<div style="font-size:10px;color:var(--text3);font-weight:700;letter-spacing:.08em;
+      text-transform:uppercase;padding:8px 0 4px;border-top:1px solid var(--border);margin-top:4px;">
+      📅 ${new Date(tag+'T12:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}
+    </div>`;
+    termine.forEach(t => {
+      const startMs = parseLocalISO(t.datetime);
+      const endMs = startMs + (t.apptDuration || 30) * 60000;
+      const farbe = t.apptColor || (t.isStaff ? '#8b5cf6' : '#6366f1');
+      const adresse = t.ort || t.adresse || '';
+      const hatAdresse = !!adresse;
+      html += `
+        <div class="termin-item" data-id="${t.id}" onclick="waehleVorTermin('${t.id}')">
+          <div class="termin-dot" style="background:${farbe};"></div>
+          <div class="termin-time">${fmtTime(startMs)} – ${fmtTime(endMs)}</div>
+          <div class="termin-info">
+            <div class="termin-name">${t.vorname||''} ${t.nachname||''} · ${t.apptType||'Termin'}</div>
+            <div class="termin-addr">${hatAdresse ? adresse : '<span style="color:var(--amber)">⚠️ Keine Adresse gespeichert</span>'}</div>
+          </div>
+          ${t.isStaff ? '<span class="chip">MA</span>' : ''}
+        </div>`;
+    });
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+window.waehleVorTermin = function(id) {
+  selectedVorTermin = allTermine.find(t => t.id === id);
+  if (!selectedVorTermin) return;
+
+  // Visuell markieren
+  document.querySelectorAll('.termin-item').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.termin-item[data-id="${id}"]`)?.classList.add('selected');
+
+  // Adresse + Zeit ins Formular übertragen
+  const adresse = selectedVorTermin.ort || selectedVorTermin.adresse || '';
+  $('t_vonAdresse').value = adresse;
+
+  // Neues Datum auf denselben Tag setzen
+  const tag = selectedVorTermin.datetime?.slice(0,10);
+  if (tag) {
+    const endMs = parseLocalISO(selectedVorTermin.datetime) + (selectedVorTermin.apptDuration||30)*60000;
+    const endH = new Date(endMs).getHours();
+    const endMin = new Date(endMs).getMinutes();
+    // Vorschlag: 30 Min. nach Vorgänger-Ende
+    const vorschlag = new Date(endMs + 30*60000);
+    const vh = pad(vorschlag.getHours()), vm = pad(vorschlag.getMinutes());
+    $('t_neuerDatetime').value = `${tag}T${vh}:${vm}`;
+  }
+
+  log(`Vorgänger gewählt: ${selectedVorTermin.vorname} ${selectedVorTermin.nachname} (${selectedVorTermin.datetime}) · ${adresse || 'keine Adresse'}`, 'info');
+};
+
+// ── Einzelne Prüfung ───────────────────────────────────────────
+window.pruefeTermin = async function() {
+  const neuerDatetime = $('t_neuerDatetime').value;
+  const neuerDauer    = parseInt($('t_neuerDauer').value) || 60;
+  const neuerAdresse  = $('t_neuerAdresse').value.trim();
+  const vonAdresse    = $('t_vonAdresse').value.trim();
+
+  if (!neuerDatetime || !neuerAdresse) {
+    log('Bitte Datum/Uhrzeit und Adresse des neuen Termins ausfüllen.', 'warn'); return;
+  }
+
+  const btn = $('pruefeBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Prüfe...';
+  $('resultPanel').style.display = 'none';
+  log('─── Neue Prüfung gestartet ───', 'info');
+
+  try {
+    const { pufferMinuten } = getSettings();
+    const neuerStart = parseLocalISO(neuerDatetime);
+    const tag = neuerDatetime.slice(0,10);
+
+    // Vorgänger bestimmen
+    let vorTermin = selectedVorTermin;
+    if (!vorTermin) {
+      // Automatisch: letzter Termin vor neuerStart am selben Tag
+      const kandidaten = allTermine
+        .filter(t => t.datetime?.startsWith(tag))
+        .map(t => ({ ...t, endMs: parseLocalISO(t.datetime) + (t.apptDuration||30)*60000 }))
+        .filter(t => t.endMs <= neuerStart)
+        .sort((a,b) => b.endMs - a.endMs);
+      vorTermin = kandidaten[0] || null;
+      if (vorTermin) log(`Vorgänger automatisch gewählt: ${vorTermin.vorname} ${vorTermin.nachname}`, 'info');
+    }
+
+    if (!vorTermin && !vonAdresse) {
+      log('Kein Vorgänger-Termin gefunden und keine Von-Adresse angegeben.', 'warn');
+      zeigeErgebnis({ ok: true, hinweis: 'Kein Vorgänger-Termin – erster Termin des Tages. Immer OK.' });
+      return;
+    }
+
+    const von = vonAdresse || vorTermin?.ort || vorTermin?.adresse || '';
+    if (!von) {
+      log('Vorgänger-Termin hat keine Adresse gespeichert.', 'warn');
+      zeigeErgebnis({ ok: null, hinweis: 'Vorgänger hat keine Adresse – Prüfung nicht möglich. Manuell prüfen.' });
+      return;
+    }
+
+    const vorEndMs = vorTermin
+      ? parseLocalISO(vorTermin.datetime) + (vorTermin.apptDuration||30)*60000
+      : null;
+    const verfuegbar = vorEndMs ? (neuerStart - vorEndMs) / 60000 : 999;
+
+    log(`Von: "${von}"`, 'info');
+    log(`Nach: "${neuerAdresse}"`, 'info');
+    log(`Verfügbare Zeit: ${Math.round(verfuegbar)} Min.`, 'info');
+
+    const { minuten, quelle, distanz, verbindung } = await berechnefahrzeit(von, neuerAdresse);
+    const benoetigt = minuten + pufferMinuten;
+    const ok = verfuegbar >= benoetigt;
+
+    const result = {
+      ok,
+      fahrzeitMin: minuten,
+      pufferMin: pufferMinuten,
+      benoetigt,
+      verfuegbar: Math.round(verfuegbar),
+      fehlt: ok ? 0 : Math.round(benoetigt - verfuegbar),
+      quelle, distanz, verbindung,
+      von, nach: neuerAdresse,
+      vorTermin,
+      neuerStart,
+      neuerDatetime,
+      neuerDauer,
+    };
+    zeigeErgebnis(result);
+    if (vorTermin) zeigeTimeline(tag, result);
+
+  } catch(e) {
+    log(`Fehler bei der Prüfung: ${e.message}`, 'err');
+    $('resultContent').innerHTML = `<div class="status-row status-error"><i class="ti ti-alert-circle"></i> ${e.message}</div>`;
+    $('resultPanel').style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-route"></i> Fahrzeit prüfen';
+};
+
+function zeigeErgebnis(result) {
+  const panel = $('resultPanel');
+  const content = $('resultContent');
+  panel.style.display = 'block';
+
+  if (result.ok === null || result.hinweis) {
+    content.innerHTML = `
+      <div class="result-header result-warn">
+        <i class="ti ti-info-circle" style="font-size:22px;"></i>
+        <span>${result.hinweis}</span>
+      </div>`;
+    log(result.hinweis, 'warn');
+    return;
+  }
+
+  const cls = result.ok ? 'result-ok' : 'result-error';
+  const icon = result.ok ? 'ti-circle-check' : 'ti-circle-x';
+  const titel = result.ok
+    ? `✅ Termin erreichbar (${result.verfuegbar - result.benoetigt} Min. Puffer übrig)`
+    : `❌ Nicht erreichbar – ${result.fehlt} Min. zu wenig`;
+
+  log(titel, result.ok ? 'ok' : 'err');
+
+  let detailHtml = '';
+  if (result.fahrzeitMin !== undefined) {
+    detailHtml = `
+      <div class="detail-grid">
+        <div class="detail-box">
+          <div class="detail-label">Fahrzeit</div>
+          <div class="detail-value">${result.fahrzeitMin}<span class="detail-unit">Min.</span></div>
+        </div>
+        <div class="detail-box">
+          <div class="detail-label">+ Puffer</div>
+          <div class="detail-value">${result.pufferMin}<span class="detail-unit">Min.</span></div>
+        </div>
+        <div class="detail-box">
+          <div class="detail-label">= Benötigt</div>
+          <div class="detail-value" style="color:${result.ok?'var(--green)':'var(--red)'}">${result.benoetigt}<span class="detail-unit">Min.</span></div>
+        </div>
+        <div class="detail-box">
+          <div class="detail-label">Verfügbar</div>
+          <div class="detail-value">${result.verfuegbar}<span class="detail-unit">Min.</span></div>
+        </div>
+        ${result.distanz ? `<div class="detail-box"><div class="detail-label">Distanz</div><div class="detail-value" style="font-size:15px;">${result.distanz}</div></div>` : ''}
+        <div class="detail-box">
+          <div class="detail-label">Ergebnis</div>
+          <div class="detail-value" style="font-size:14px;color:${result.ok?'var(--green)':'var(--red)'}">
+            ${result.ok ? '+'+Math.max(0,result.verfuegbar-result.benoetigt)+' Min.' : '-'+result.fehlt+' Min.'}
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Route</div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--text2);line-height:1.8;">
+          <div>📍 Von: <span style="color:var(--text)">${result.von}</span></div>
+          <div>📍 Nach: <span style="color:var(--text)">${result.nach}</span></div>
+          ${result.verbindung ? `<div>🚆 Verbindung: <span style="color:var(--indigo2)">${result.verbindung}</span></div>` : ''}
+          <div>📊 Quelle: <span style="color:var(--text3)">${result.quelle}</span></div>
+        </div>
+      </div>`;
+  }
+
+  if (result.vorTermin) {
+    const vorEnd = parseLocalISO(result.vorTermin.datetime) + (result.vorTermin.apptDuration||30)*60000;
+    detailHtml += `
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Vorgänger-Termin</div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--text2);line-height:1.8;">
+          <div>👤 ${result.vorTermin.vorname||''} ${result.vorTermin.nachname||''}</div>
+          <div>🕐 ${fmtTime(parseLocalISO(result.vorTermin.datetime))} – ${fmtTime(vorEnd)} Uhr (${result.vorTermin.apptDuration||30} Min.)</div>
+          <div>📍 ${result.vorTermin.ort || result.vorTermin.adresse || '<span style="color:var(--amber)">keine Adresse</span>'}</div>
+        </div>
+      </div>`;
+  }
+
+  content.innerHTML = `
+    <div class="result-header ${cls}">
+      <i class="ti ${icon}" style="font-size:24px;flex-shrink:0;"></i>
+      <span>${titel}</span>
+    </div>
+    ${detailHtml}`;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── Tages-Timeline ─────────────────────────────────────────────
+function zeigeTimeline(tag, result) {
+  const panel = $('timelinePanel');
+  const content = $('timelineContent');
+  panel.style.display = 'block';
+
+  const tagTermine = allTermine
+    .filter(t => t.datetime?.startsWith(tag))
+    .map(t => ({ ...t, startMs: parseLocalISO(t.datetime), endMs: parseLocalISO(t.datetime)+(t.apptDuration||30)*60000 }))
+    .sort((a,b) => a.startMs - b.startMs);
+
+  // Neuen Termin hinzufügen (temporär)
+  const neuerStartMs = parseLocalISO(result.neuerDatetime);
+  const neuerEndMs = neuerStartMs + (result.neuerDauer||60)*60000;
+
+  let html = '<div class="timeline">';
+  let prevEndMs = null;
+
+  tagTermine.forEach((t, i) => {
+    const farbe = t.apptColor || (t.isStaff ? '#8b5cf6' : '#6366f1');
+    const adresse = t.ort || t.adresse || '';
+
+    if (prevEndMs !== null) {
+      const gap = (t.startMs - prevEndMs) / 60000;
+      html += `<div class="tl-gap ${gap < 0 ? 'danger' : ''}">${Math.round(gap)} Min. Pause</div>`;
+    }
+
+    html += `
+      <div class="timeline-item">
+        <div class="tl-time">${fmtTime(t.startMs)}<br/><span style="opacity:.5">–${fmtTime(t.endMs)}</span></div>
+        <div class="tl-dot" style="background:${farbe};"></div>
+        <div class="tl-content">
+          <div class="tl-name">${t.vorname||''} ${t.nachname||''} · ${t.apptType||'Termin'}</div>
+          <div class="tl-addr">${adresse || '⚠️ keine Adresse'}</div>
+        </div>
+      </div>`;
+    prevEndMs = t.endMs;
+  });
+
+  // Reise-Gap vor neuem Termin
+  if (result.vorTermin && prevEndMs) {
+    const gapOk = result.ok;
+    html += `
+      <div class="tl-gap ${gapOk ? 'ok' : 'danger'}">
+        🚗 Fahrzeit: ${result.fahrzeitMin} Min. + ${result.pufferMin} Min. Puffer = ${result.benoetigt} Min. benötigt
+        · Verfügbar: ${result.verfuegbar} Min. · ${gapOk ? '✅ OK' : '❌ NICHT MÖGLICH'}
+      </div>`;
+  }
+
+  // Neuer Termin
+  html += `
+    <div class="timeline-item" style="border:1px dashed var(--indigo);border-radius:8px;padding:12px;background:rgba(99,102,241,0.06);">
+      <div class="tl-time">${fmtTime(neuerStartMs)}<br/><span style="opacity:.5">–${fmtTime(neuerEndMs)}</span></div>
+      <div class="tl-dot" style="background:var(--indigo);animation:pulse 1s infinite;"></div>
+      <div class="tl-content">
+        <div class="tl-name" style="color:var(--indigo2)">🆕 Neuer Termin (Simulation)</div>
+        <div class="tl-addr">${result.nach}</div>
+      </div>
+    </div>`;
+
+  html += '</div>';
+  content.innerHTML = html;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── Alle Termine des Tages prüfen ─────────────────────────────
+window.alleTerminePruefen = async function() {
+  const tag = $('t_datum').value || new Date().toISOString().slice(0,10);
+  log(`─── Prüfe alle Termine am ${tag} ───`, 'info');
+
+  const tagTermine = allTermine
+    .filter(t => t.datetime?.startsWith(tag))
+    .map(t => ({ ...t, startMs: parseLocalISO(t.datetime), endMs: parseLocalISO(t.datetime)+(t.apptDuration||30)*60000 }))
+    .sort((a,b) => a.startMs - b.startMs);
+
+  if (tagTermine.length < 2) {
+    log('Weniger als 2 Termine an diesem Tag – nichts zu prüfen.', 'warn'); return;
+  }
+
+  const { pufferMinuten } = getSettings();
+  const panel = $('resultPanel');
+  const content = $('resultContent');
+  panel.style.display = 'block';
+
+  let html = `<div style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--text2);">
+    Batch-Prüfung: ${tagTermine.length} Termine am ${new Date(tag+'T12:00').toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long'})}
+  </div>`;
+
+  for (let i = 1; i < tagTermine.length; i++) {
+    const vor = tagTermine[i-1], neu = tagTermine[i];
+    const von = vor.ort || vor.adresse || '';
+    const nach = neu.ort || neu.adresse || '';
+    const verfuegbar = (neu.startMs - vor.endMs) / 60000;
+
+    if (!von || !nach) {
+      html += `<div class="status-row status-warn">
+        <i class="ti ti-alert-circle"></i>
+        ${fmtTime(vor.startMs)} → ${fmtTime(neu.startMs)} · Adresse fehlt – Prüfung übersprungen
+      </div>`;
+      log(`${fmtTime(vor.startMs)} → ${fmtTime(neu.startMs)}: Adresse fehlt`, 'warn');
+      continue;
+    }
+
+    try {
+      const { minuten, quelle } = await berechnefahrzeit(von, nach);
+      const benoetigt = minuten + pufferMinuten;
+      const ok = verfuegbar >= benoetigt;
+      const cls = ok ? 'status-ok' : 'status-error';
+      const icon = ok ? 'ti-circle-check' : 'ti-circle-x';
+      html += `<div class="status-row ${cls}">
+        <i class="ti ${icon}"></i>
+        <strong>${fmtTime(vor.endMs)} → ${fmtTime(neu.startMs)}</strong>
+        · ${minuten} Min. Fahrt + ${pufferMinuten} Puffer = ${benoetigt} Min. benötigt
+        · ${Math.round(verfuegbar)} Min. verfügbar
+        ${ok ? `· ✅ +${Math.round(verfuegbar-benoetigt)} Min. Puffer` : `· ❌ ${Math.round(benoetigt-verfuegbar)} Min. zu wenig`}
+        <span style="margin-left:auto;font-size:10px;opacity:.6;">${quelle}</span>
+      </div>`;
+    } catch(e) {
+      html += `<div class="status-row status-warn"><i class="ti ti-alert-circle"></i> Fehler: ${e.message}</div>`;
+    }
+  }
+  content.innerHTML = html;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+
+// ── Init ───────────────────────────────────────────────────────
+const today = new Date().toISOString().slice(0,10);
+$('t_datum').value = today;
+$('t_neuerDatetime').value = `${today}T10:00`;
+log('Testumgebung bereit. Firebase: tracking-74513 (read-only)', 'ok');
+log('Kein API-Key = kostenlose Nominatim-Schätzung (Luftlinie × 1.3)', 'info');
+
+</script>
+</body>
+</html>
