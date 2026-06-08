@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressum – Nawin Asuramuni</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1f3d;
+    --navy-mid: #162848;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e8c0;
+    --cream: #faf7f2;
+    --slate: #6b7a99;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 900;
+    background: rgba(15,31,61,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 2rem;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--gold); }
+  .nav-link.active { color: var(--gold); }
+
+  /* PAGE HEADER */
+  .page-header {
+    background: var(--navy);
+    padding: 8rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: var(--gold);
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.07;
+    top: -200px; right: -100px;
+    pointer-events: none;
+  }
+
+  .page-header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .page-eyebrow {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .page-title {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .page-title span { color: var(--gold); }
+
+  .page-subtitle {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.5);
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .section-block {
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-block + .section-block {
+    padding-top: 3rem;
+    border-top: 1px solid rgba(15,31,61,0.1);
+  }
+
+  .block-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .block-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .block-title::after {
+    content: '';
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.3);
+    max-width: 120px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0.6rem 1.5rem;
+  }
+
+  @media (max-width: 560px) {
+    .info-grid { grid-template-columns: 1fr; gap: 0.2rem; }
+    .info-key { margin-top: 0.75rem; }
+  }
+
+  .info-key {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-top: 0.1rem;
+  }
+
+  .info-val {
+    font-size: 0.97rem;
+    color: var(--navy);
+    line-height: 1.6;
+  }
+
+  .info-val a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .info-val a:hover { color: var(--gold-light); text-decoration: underline; }
+
+  .notice-box {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .notice-box p {
+    font-size: 0.88rem;
+    color: var(--slate);
+    line-height: 1.7;
+  }
+
+  .notice-box p + p { margin-top: 0.75rem; }
+
+  .notice-box strong { color: var(--navy); font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+
+  footer p {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  footer a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ANIMATION */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-block:nth-child(1) { animation-delay: 0.05s; }
+  .section-block:nth-child(2) { animation-delay: 0.15s; }
+  .section-block:nth-child(3) { animation-delay: 0.25s; }
+  .section-block:nth-child(4) { animation-delay: 0.35s; }
+  .section-block:nth-child(5) { animation-delay: 0.45s; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="nav-logo">Nawin Asuramuni</a>
+  <div class="nav-links">
+    <a href="impressum.html" class="nav-link active">Impressum</a>
+    <a href="datenschutz.html" class="nav-link">Datenschutz</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <span class="page-eyebrow">Rechtliche Angaben</span>
+    <h1 class="page-title">Impressum <span>&amp;</span> Angaben</h1>
+    <p class="page-subtitle">Pflichtangaben gemäß § 5 TMG</p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- Angaben zum Unternehmen -->
+  <div class="section-block">
+    <div class="block-label">Diensteanbieter</div>
+    <h2 class="block-title">Angaben gem. § 5 TMG</h2>
+    <div class="info-grid">
+      <span class="info-key">Name</span>
+      <span class="info-val">Nawin Asuramuni</span>
+
+      <span class="info-key">Anschrift</span>
+      <span class="info-val">Pöhlegasse 2<br>89134 Blaustein</span>
+
+      <span class="info-key">Telefon</span>
+      <span class="info-val"><a href="tel:+4915202333694">+49 1520 2333694</a></span>
+
+      <span class="info-key">E-Mail</span>
+      <span class="info-val"><a href="mailto:nawin.telis@gmail.com">nawin.telis@gmail.com</a></span>
+    </div>
+  </div>
+
+  <!-- Steuer -->
+  <div class="section-block">
+    <div class="block-label">Steuerliche Angaben</div>
+    <h2 class="block-title">Steuernummer</h2>
+    <div class="info-grid">
+      <span class="info-key">Steuernummer</span>
+      <span class="info-val">88106/13060</span>
+
+      <span class="info-key">Zuständiges FA</span>
+      <span class="info-val">Finanzamt Ulm</span>
+    </div>
+  </div>
+
+  <!-- Tätigkeit & Aufsicht -->
+  <div class="section-block">
+    <div class="block-label">Gewerbliche Tätigkeit</div>
+    <h2 class="block-title">Tätigkeit &amp; Aufsicht</h2>
+    <div class="info-grid">
+      <span class="info-key">Tätigkeit</span>
+      <span class="info-val">Selbstständiger Kaufmann gem. § 84 HGB</span>
+
+      <span class="info-key">Kooperation</span>
+      <span class="info-val">Tätig in der Mandantenbetreuung und -vermittlung in Kooperation mit der<br>
+        <strong>TELIS FINANZ Vermittlung AG</strong><br>
+        Ziegetsdorfer Str. 116, 93051 Regensburg
+      </span>
+    </div>
+  </div>
+
+  <!-- Streitbeilegung -->
+  <div class="section-block">
+    <div class="block-label">Online-Streitbeilegung</div>
+    <h2 class="block-title">Streitbeilegung</h2>
+    <div class="notice-box">
+      <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:<br>
+        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>
+      </p>
+      <p>Zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle sind wir nicht verpflichtet und nicht bereit.</p>
+    </div>
+  </div>
+
+  <!-- Haftungsausschluss -->
+  <div class="section-block">
+    <div class="block-label">Haftung</div>
+    <h2 class="block-title">Haftungsausschluss</h2>
+    <div class="notice-box">
+      <p><strong>Haftung für Inhalte:</strong> Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden.</p>
+      <p><strong>Haftung für Links:</strong> Diese Website enthält Links zu externen Websites Dritter, auf deren Inhalte kein Einfluss besteht. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© <span id="year"></span> Nawin Asuramuni · <a href="impressum.html">Impressum</a></p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
