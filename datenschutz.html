@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutzerklärung – Nawin Asuramuni</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1f3d;
+    --navy-mid: #162848;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e8c0;
+    --cream: #faf7f2;
+    --slate: #6b7a99;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 900;
+    background: rgba(15,31,61,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 2rem;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--gold); }
+  .nav-link.active { color: var(--gold); }
+
+  .page-header {
+    background: var(--navy);
+    padding: 8rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: var(--gold);
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.07;
+    top: -200px; right: -100px;
+    pointer-events: none;
+  }
+
+  .page-header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .page-eyebrow {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .page-title {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .page-title span { color: var(--gold); }
+
+  .page-subtitle {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.5);
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .section-block {
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-block + .section-block {
+    padding-top: 3rem;
+    border-top: 1px solid rgba(15,31,61,0.1);
+  }
+
+  .block-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .block-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .block-title::after {
+    content: '';
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.3);
+    max-width: 120px;
+  }
+
+  .prose {
+    font-size: 0.95rem;
+    color: #3a4a6b;
+    line-height: 1.8;
+  }
+
+  .prose + .prose {
+    margin-top: 1rem;
+  }
+
+  .prose a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .prose a:hover { text-decoration: underline; color: var(--gold-light); }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0.6rem 1.5rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    .info-grid { grid-template-columns: 1fr; gap: 0.2rem; }
+    .info-key { margin-top: 0.75rem; }
+  }
+
+  .info-key {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-top: 0.1rem;
+  }
+
+  .info-val {
+    font-size: 0.95rem;
+    color: var(--navy);
+    line-height: 1.6;
+  }
+
+  .info-val a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .notice-box {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .notice-box p {
+    font-size: 0.88rem;
+    color: var(--slate);
+    line-height: 1.7;
+  }
+  .notice-box p + p { margin-top: 0.6rem; }
+  .notice-box strong { color: var(--navy); }
+
+  .rights-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .right-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    font-size: 0.93rem;
+    color: #3a4a6b;
+    line-height: 1.6;
+  }
+
+  .right-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    margin-top: 0.45rem;
+  }
+
+  footer {
+    background: var(--navy);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+
+  footer p {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  footer a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-block:nth-child(1) { animation-delay: 0.05s; }
+  .section-block:nth-child(2) { animation-delay: 0.12s; }
+  .section-block:nth-child(3) { animation-delay: 0.19s; }
+  .section-block:nth-child(4) { animation-delay: 0.26s; }
+  .section-block:nth-child(5) { animation-delay: 0.33s; }
+  .section-block:nth-child(6) { animation-delay: 0.40s; }
+  .section-block:nth-child(7) { animation-delay: 0.47s; }
+  .section-block:nth-child(8) { animation-delay: 0.54s; }
+  .section-block:nth-child(9) { animation-delay: 0.61s; }
+</style>
+
+<script>
+  // Wenn im iframe: Navbar und Footer ausblenden, padding anpassen
+  if (window.self !== window.top) {
+    document.addEventListener('DOMContentLoaded', function() {
+      var nav = document.querySelector('nav');
+      var footer = document.querySelector('footer');
+      if (nav) nav.style.display = 'none';
+      if (footer) footer.style.display = 'none';
+      // Kein Top-Offset mehr nötig
+      var header = document.querySelector('.page-header');
+      if (header) header.style.paddingTop = '3rem';
+    });
+  }
+</script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Nawin Asuramuni</a>
+  <div class="nav-links">
+    <a href="impressum.html" class="nav-link">Impressum</a>
+    <a href="datenschutz.html" class="nav-link active">Datenschutz</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <span class="page-eyebrow">Rechtliche Angaben</span>
+    <h1 class="page-title">Datenschutz<span>erklärung</span></h1>
+    <p class="page-subtitle">Informationen zur Verarbeitung Ihrer personenbezogenen Daten</p>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- 1. Verantwortlicher -->
+  <div class="section-block">
+    <div class="block-label">§ 1</div>
+    <h2 class="block-title">Verantwortlicher</h2>
+    <p class="prose">Verantwortlich für die Datenverarbeitung auf dieser Website im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:</p>
+    <div class="info-grid">
+      <span class="info-key">Name</span>
+      <span class="info-val">Nawin Asuramuni</span>
+
+      <span class="info-key">Anschrift</span>
+      <span class="info-val">Pöhlegasse 2<br>89134 Blaustein</span>
+
+      <span class="info-key">Telefon</span>
+      <span class="info-val"><a href="tel:+4915202333694">+49 1520 2333694</a></span>
+
+      <span class="info-key">E-Mail</span>
+      <span class="info-val"><a href="mailto:nawin.telis@gmail.com">nawin.telis@gmail.com</a></span>
+    </div>
+  </div>
+
+  <!-- 2. Allgemeines -->
+  <div class="section-block">
+    <div class="block-label">§ 2</div>
+    <h2 class="block-title">Allgemeines zur Datenverarbeitung</h2>
+    <p class="prose">Wir nehmen den Schutz Ihrer personenbezogenen Daten ernst. Personenbezogene Daten sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen.</p>
+    <p class="prose">Diese Datenschutzerklärung gilt für die Website <strong>nawin-asuramuni.github.io/Beratung</strong> und alle damit verbundenen Unterseiten und Formulare. Wir verarbeiten Ihre Daten ausschließlich auf Grundlage der gesetzlichen Bestimmungen der DSGVO sowie des Bundesdatenschutzgesetzes (BDSG).</p>
+  </div>
+
+  <!-- 3. Kontaktformular / Buchung -->
+  <div class="section-block">
+    <div class="block-label">§ 3</div>
+    <h2 class="block-title">Kontaktformular &amp; Terminbuchung</h2>
+    <p class="prose">Wenn Sie über das Kontaktformular oder das Buchungssystem dieser Website eine Anfrage stellen oder einen Termin buchen, erheben wir folgende Daten: Vor- und Nachname, E-Mail-Adresse, Telefonnummer, gewünschter Termin sowie etwaige Freitextangaben.</p>
+    <p class="prose">Die erhobenen Daten werden verwendet, um Ihre Anfrage zu bearbeiten und ein erstes persönliches Gespräch vorzubereiten. Je nach weiterem Verlauf kann dies insbesondere die Vorbereitung einer Finanzanalyse, die Anbahnung einer Mandatsbeziehung, die Prüfung einer beruflichen Zusammenarbeit oder weitere sich daraus ergebende Zwecke umfassen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Kontaktaufnahme).</p>
+    <p class="prose">Ihre Daten werden grundsätzlich nicht an Dritte weitergegeben, außer soweit dies zur Leistungserbringung erforderlich ist. Im Rahmen der Vertragsanbahnung können Ihre Daten an Kollegen und Mitarbeiter innerhalb des TELIS FINANZ Netzwerks weitergegeben werden, soweit dies zur Bearbeitung Ihrer Anfrage oder zur Vorbereitung einer Zusammenarbeit erforderlich ist.</p>
+  </div>
+
+  <!-- 4. E-Mail -->
+  <div class="section-block">
+    <div class="block-label">§ 4</div>
+    <h2 class="block-title">Kontakt per E-Mail</h2>
+    <p class="prose">Wenn Sie uns per E-Mail kontaktieren, werden die von Ihnen übermittelten Daten (Name, Nachrichteninhalt, Kontaktdaten) zur Bearbeitung Ihrer Anfrage gespeichert und genutzt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO.</p>
+  </div>
+
+  <!-- 5. WhatsApp -->
+  <div class="section-block">
+    <div class="block-label">§ 5</div>
+    <h2 class="block-title">Kontakt per WhatsApp</h2>
+    <p class="prose">WhatsApp wird derzeit nicht als Kommunikationskanal für Mandantenanfragen genutzt. Sofern dies künftig geändert wird, wird diese Datenschutzerklärung entsprechend aktualisiert.</p>
+  </div>
+
+  <!-- 6. Hosting -->
+  <div class="section-block">
+    <div class="block-label">§ 6</div>
+    <h2 class="block-title">Hosting &amp; Serverprotokolle</h2>
+    <p class="prose">Diese Website wird über <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet. Beim Aufruf der Website erfasst GitHub automatisch technische Zugriffsdaten (sog. Server-Logs), darunter Ihre IP-Adresse, Browsertyp, Betriebssystem, Datum und Uhrzeit des Zugriffs sowie die aufgerufene Seite.</p>
+    <p class="prose">Diese Daten werden von GitHub verarbeitet und sind für uns nicht direkt einsehbar. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb der Website).</p>
+    <div class="notice-box">
+      <p>Weitere Informationen zum Datenschutz bei GitHub finden Sie unter: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">github.com/privacy</a></p>
+    </div>
+  </div>
+
+  <!-- 7. Firebase -->
+  <div class="section-block">
+    <div class="block-label">§ 7</div>
+    <h2 class="block-title">Datenspeicherung via Firebase</h2>
+    <p class="prose">Für die Speicherung von Buchungs- und Kontaktdaten nutzen wir <strong>Firebase Firestore</strong>, einen Dienst der Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irland). Die Daten werden auf Servern von Google gespeichert, die sich in der Europäischen Union oder in den USA befinden können.</p>
+    <p class="prose">Beim Transfer in die USA stützen wir uns auf die Standardvertragsklauseln der EU-Kommission (Art. 46 Abs. 2 lit. c DSGVO) als geeignete Garantie.</p>
+    <div class="notice-box">
+      <p><strong>Was wird gespeichert?</strong> Ihre über das Formular übermittelten Kontakt- und Termindaten.</p>
+      <p><strong>Wie lange?</strong> Anfragedaten werden gespeichert, solange ein berechtigtes Interesse an der Kontaktaufnahme besteht. Sobald eine Mandats- oder Vertragsbeziehung entsteht, werden die Daten für deren Dauer sowie im Anschluss für den gesetzlich vorgeschriebenen Zeitraum aufbewahrt. Auf schriftliche Anfrage per E-Mail werden Ihre Daten unverzüglich gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
+      <p>Weitere Informationen: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a></p>
+    </div>
+  </div>
+
+  <!-- 8. Betroffenenrechte -->
+  <div class="section-block">
+    <div class="block-label">§ 8</div>
+    <h2 class="block-title">Ihre Rechte</h2>
+    <p class="prose">Sie haben gegenüber uns folgende Rechte hinsichtlich Ihrer personenbezogenen Daten:</p>
+    <div class="rights-list">
+      <div class="right-item"><div class="right-dot"></div><span><strong>Auskunftsrecht</strong> (Art. 15 DSGVO) — Sie können jederzeit Auskunft über die zu Ihrer Person gespeicherten Daten verlangen.</span></div>
+      <div class="right-item"><div class="right-dot"></div><span><strong>Berichtigungsrecht</strong> (Art. 16 DSGVO) — Sie können die Berichtigung unrichtiger Daten verlangen.</span></div>
+      <div class="right-item"><div class="right-dot"></div><span><strong>Löschungsrecht</strong> (Art. 17 DSGVO) — Sie können die Löschung Ihrer Daten verlangen, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</span></div>
+      <div class="right-item"><div class="right-dot"></div><span><strong>Einschränkung der Verarbeitung</strong> (Art. 18 DSGVO) — Sie können die Einschränkung der Verarbeitung Ihrer Daten verlangen.</span></div>
+      <div class="right-item"><div class="right-dot"></div><span><strong>Widerspruchsrecht</strong> (Art. 21 DSGVO) — Sie können der Verarbeitung Ihrer Daten widersprechen, sofern diese auf berechtigtem Interesse beruht.</span></div>
+      <div class="right-item"><div class="right-dot"></div><span><strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO) — Sie können die Herausgabe Ihrer Daten in einem gängigen Format verlangen.</span></div>
+      <div class="right-item"><div class="right-dot"></div><span><strong>Widerruf der Einwilligung</strong> — Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen.</span></div>
+    </div>
+    <div class="notice-box" style="margin-top:1.5rem;">
+      <p>Zur Ausübung Ihrer Rechte wenden Sie sich bitte <strong>schriftlich per E-Mail</strong> an: <a href="mailto:nawin.telis@gmail.com">nawin.telis@gmail.com</a></p>
+      <p style="margin-top:0.75rem;">Bitte beachten Sie, dass Anfragen zur Löschung, Auskunft oder Einschränkung Ihrer Daten aus Nachweisgründen ausschließlich in Textform (E-Mail) entgegengenommen werden können. Mündliche oder telefonische Anfragen können aus diesem Grund nicht bearbeitet werden.</p>
+    </div>
+  </div>
+
+  <!-- 9. Beschwerderecht -->
+  <div class="section-block">
+    <div class="block-label">§ 9</div>
+    <h2 class="block-title">Beschwerderecht bei der Aufsichtsbehörde</h2>
+    <p class="prose">Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer personenbezogenen Daten zu beschweren. Die zuständige Aufsichtsbehörde für Baden-Württemberg ist:</p>
+    <div class="info-grid">
+      <span class="info-key">Behörde</span>
+      <span class="info-val">Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg</span>
+
+      <span class="info-key">Adresse</span>
+      <span class="info-val">Lautenschlagerstraße 20<br>70173 Stuttgart</span>
+
+      <span class="info-key">Website</span>
+      <span class="info-val"><a href="https://www.baden-wuerttemberg.datenschutz.de" target="_blank" rel="noopener">www.baden-wuerttemberg.datenschutz.de</a></span>
+    </div>
+  </div>
+
+  <!-- 10. Aktualität -->
+  <div class="section-block">
+    <div class="block-label">§ 10</div>
+    <h2 class="block-title">Aktualität dieser Erklärung</h2>
+    <p class="prose">Diese Datenschutzerklärung ist aktuell gültig und hat den Stand <span id="datum"></span>. Durch die Weiterentwicklung unserer Website oder aufgrund geänderter gesetzlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern. Die jeweils aktuelle Version ist stets auf dieser Seite abrufbar.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>© <span id="year"></span> Nawin Asuramuni · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const now = new Date();
+  document.getElementById('datum').textContent = now.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
+</script>
+
+</body>
+</html>
